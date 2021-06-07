@@ -17,6 +17,19 @@ if(file.exists("data/train_data.csv")){
 }
 ```
 
+Data Description
+
+ID - unique ID given to an applicant
+parents - occupation of parents (usual, pretentious, great_pret)
+has_nurs - child's nursery (proper, less_proper, improper, critical, very_crit)
+form - form of the family (complete, completed, incomplete, foster)
+children - (children number (1, 2, 3, more)
+housing - housing conditions (convenient, less_conv, critical)
+finance - financial standing of the family (convenient, inconv)
+social - social conditions (non-prob, slightly_prob, problematic)
+health - health conditions (recommended, priority, not_recom)
+app_status - label/target/response variable (1-selected, 0-not selected)
+
 # Preprocessing steps
 
 #### Convert app_status to factor
@@ -43,5 +56,19 @@ train %>%
 train %>% 
   select_if(is.character) %>% 
   map(~ table(.x)/nrow(train))
+```
+
+```{r}
+preprocess_data <- function(df,is_train = TRUE){
+df <- df %>% 
+  mutate_if(is.character,factor) %>% 
+  
+if(is_train){
+df <- df %>% 
+  mutate(app_status = factor(app_status,levels=c(0,1),labels=c("not selected","selected")))
+}
+}
+
+  
 ```
 
