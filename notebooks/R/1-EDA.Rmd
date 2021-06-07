@@ -1,0 +1,47 @@
+---
+title: "1-EDA"
+author: "Janith Wanniarachchi"
+date: "6/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+if(file.exists("data/train_data.csv")){
+  train <- read_csv("data/train_data.csv")  
+  test <- read_csv("data/test_data.csv")  
+}else{
+  train <- read_csv("../../data/train_data.csv")
+  test <- read_csv("../../data/test_data.csv") 
+}
+```
+
+# Preprocessing steps
+
+#### Convert app_status to factor
+#### Convert character to factor
+#### in the form column complete and completed have to be merged together
+
+# Findings
+
+#### No missing values
+
+# Code
+
+```{r}
+skimr::skim(train)
+```
+
+```{r}
+train %>% 
+  mutate_if(is.character,factor) %>% 
+  skimr::skim()
+```
+
+```{r}
+train %>% 
+  select_if(is.character) %>% 
+  map(~ table(.x)/nrow(train))
+```
+
