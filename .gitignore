@@ -183,3 +183,4 @@ docs/
 # translation temp files
 po/*~
 
+dataAutoGluonModels/*
