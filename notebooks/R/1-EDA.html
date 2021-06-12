@@ -195,10 +195,28 @@ summary {
 </div>
 
 
+<p>Data Description</p>
+<p>ID - unique ID given to an applicant parents - occupation of parents (usual, pretentious, great_pret) has_nurs - child’s nursery (proper, less_proper, improper, critical, very_crit) form - form of the family (complete, completed, incomplete, foster) children - (children number (1, 2, 3, more) housing - housing conditions (convenient, less_conv, critical) finance - financial standing of the family (convenient, inconv) social - social conditions (non-prob, slightly_prob, problematic) health - health conditions (recommended, priority, not_recom) app_status - label/target/response variable (1-selected, 0-not selected)</p>
 <div id="preprocessing-steps" class="section level1">
 <h1>Preprocessing steps</h1>
 <div id="convert-app_status-to-factor" class="section level4">
 <h4>Convert app_status to factor</h4>
+</div>
+<div id="convert-character-to-factor" class="section level4">
+<h4>Convert character to factor</h4>
+</div>
+<div id="in-the-form-column-complete-and-completed-have-to-be-merged-together" class="section level4">
+<h4>in the form column complete and completed have to be merged together</h4>
+</div>
+</div>
+<div id="findings" class="section level1">
+<h1>Findings</h1>
+<div id="no-missing-values" class="section level4">
+<h4>No missing values</h4>
+</div>
+</div>
+<div id="code" class="section level1">
+<h1>Code</h1>
 <pre class="r"><code>skimr::skim(train)</code></pre>
 <table>
 <caption>Data summary</caption>
@@ -384,7 +402,226 @@ summary {
 </tr>
 </tbody>
 </table>
-</div>
+<pre class="r"><code>train %&gt;% 
+  mutate_if(is.character,factor) %&gt;% 
+  skimr::skim()</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">10368</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">10</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">factor</td>
+<td align="left">8</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">parents</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">gre: 3475, usu: 3475, pre: 3418</td>
+</tr>
+<tr class="even">
+<td align="left">has_nurs</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">5</td>
+<td align="left">cri: 2108, imp: 2088, ver: 2064, les: 2058</td>
+</tr>
+<tr class="odd">
+<td align="left">form</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">4</td>
+<td align="left">com: 2604, inc: 2604, com: 2589, fos: 2571</td>
+</tr>
+<tr class="even">
+<td align="left">children</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">4</td>
+<td align="left">3: 2632, 1: 2592, 2: 2587, mor: 2557</td>
+</tr>
+<tr class="odd">
+<td align="left">housing</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">con: 3477, les: 3472, cri: 3419</td>
+</tr>
+<tr class="even">
+<td align="left">finance</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">inc: 5209, con: 5159</td>
+</tr>
+<tr class="odd">
+<td align="left">social</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">sli: 3496, pro: 3445, non: 3427</td>
+</tr>
+<tr class="even">
+<td align="left">health</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">not: 3465, pri: 3456, rec: 3447</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ID</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5184.50</td>
+<td align="right">2993.13</td>
+<td align="right">1</td>
+<td align="right">2592.75</td>
+<td align="right">5184.5</td>
+<td align="right">7776.25</td>
+<td align="right">10368</td>
+<td align="left">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td align="left">app_status</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0.35</td>
+<td align="right">0.48</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.0</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▅</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>train %&gt;% 
+  select_if(is.character) %&gt;% 
+  map(~ table(.x)/nrow(train))</code></pre>
+<pre><code>## $parents
+## .x
+##  great_pret pretentious       usual 
+##   0.3351659   0.3296682   0.3351659 
+## 
+## $has_nurs
+## .x
+##    critical    improper less_proper      proper   very_crit 
+##   0.2033179   0.2013889   0.1984954   0.1977238   0.1990741 
+## 
+## $form
+## .x
+##   complete  completed     foster incomplete 
+##  0.2511574  0.2497106  0.2479745  0.2511574 
+## 
+## $children
+## .x
+##         1         2         3      more 
+## 0.2500000 0.2495177 0.2538580 0.2466242 
+## 
+## $housing
+## .x
+## convenient   critical  less_conv 
+##  0.3353588  0.3297647  0.3348765 
+## 
+## $finance
+## .x
+## convenient     inconv 
+##  0.4975887  0.5024113 
+## 
+## $social
+## .x
+##       nonprob   problematic slightly_prob 
+##     0.3305363     0.3322724     0.3371914 
+## 
+## $health
+## .x
+##   not_recom    priority recommended 
+##   0.3342014   0.3333333   0.3324653</code></pre>
+<pre class="r"><code>preprocess_data &lt;- function(df,is_train = TRUE){
+df &lt;- df %&gt;% 
+  mutate_if(is.character,factor) %&gt;% 
+  
+if(is_train){
+df &lt;- df %&gt;% 
+  mutate(app_status = factor(app_status,levels=c(0,1),labels=c(&quot;not selected&quot;,&quot;selected&quot;)))
+}
+}</code></pre>
 </div>
 
 
